@@ -1,0 +1,79 @@
+[Table]	[Key]	[A]	[B]	[C]	[D]	[E]
+Acquisition	Direct|Desktop	180	34	0	0	0
+Acquisition	Direct|Mobile	756	166	0	0	0
+Acquisition	Direct|Tablet	38	6	0	0	0
+Acquisition	Google Ads|Desktop	356	49	0	0	0
+Acquisition	Google Ads|Mobile	1418	237	0	0	0
+Acquisition	Google Ads|Tablet	59	6	0	0	0
+Acquisition	Instagram Ads|Desktop	445	51	0	0	0
+Acquisition	Instagram Ads|Mobile	1984	297	0	0	0
+Acquisition	Instagram Ads|Tablet	127	13	0	0	0
+Acquisition	Organic Search|Desktop	567	84	0	0	0
+Acquisition	Organic Search|Mobile	2429	418	0	0	0
+Acquisition	Organic Search|Tablet	120	13	0	0	0
+Acquisition	Referral|Desktop	257	46	0	0	0
+Acquisition	Referral|Mobile	1040	267	0	0	0
+Acquisition	Referral|Tablet	62	11	0	0	0
+CategorySales	Bakery	586	5845.99	0	0	0
+CategorySales	Beverage	185	1538.22	0	0	0
+CategorySales	Grocery	828	20991.93	0	0	0
+CategorySales	Healthy Food	174	2996.09	0	0	0
+CategorySales	Restaurant Meal	1733	38395.34	0	0	0
+CategorySales	Snack	393	2553.27	0	0	0
+CustomerSegments	At Risk	224	17524.11	367	224	107
+CustomerSegments	Champions	138	18011.39	326	0	124
+CustomerSegments	Lost	100	4730.96	100	100	0
+CustomerSegments	Loyal	265	16877.02	393	13	104
+CustomerSegments	New Customers	148	7072.02	148	0	0
+CustomerSegments	Potential Loyalists	172	8215.72	172	105	0
+MonthlyCity	2025-09|Isfahan	318.04	10	310.1	35	11
+MonthlyCity	2025-09|Mashhad	433.04	5	194.5	22	5
+MonthlyCity	2025-09|Shiraz	156.51	5	156.7	20	5
+MonthlyCity	2025-09|Tabriz	104.59	3	95.9	22	3
+MonthlyCity	2025-09|Tehran	573.17	10	401.4	105	13
+MonthlyCity	2025-10|Isfahan	419.84	8	292	96	9
+MonthlyCity	2025-10|Mashhad	790.33	13	476.4	90	15
+MonthlyCity	2025-10|Shiraz	372.52	9	280.5	61	11
+MonthlyCity	2025-10|Tabriz	509.38	11	380.3	73	13
+MonthlyCity	2025-10|Tehran	2356.26	51	1798.1	360	61
+MonthlyCity	2025-11|Isfahan	1171.02	33	1209.7	175	36
+MonthlyCity	2025-11|Mashhad	1611.37	24	843.7	150	30
+MonthlyCity	2025-11|Shiraz	1307.81	22	837.2	145	24
+MonthlyCity	2025-11|Tabriz	782.46	20	724.9	122	22
+MonthlyCity	2025-11|Tehran	4576.38	95	3386.1	589	98
+MonthlyCity	2025-12|Isfahan	1954.83	45	1579.3	295	48
+MonthlyCity	2025-12|Mashhad	2127.7	37	1406.4	246	44
+MonthlyCity	2025-12|Shiraz	2531.67	42	1560.4	270	49
+MonthlyCity	2025-12|Tabriz	1512.66	26	1009.3	197	32
+MonthlyCity	2025-12|Tehran	6418.02	146	5287.3	923	160
+MonthlyCity	2026-01|Isfahan	2757.37	56	2152.9	426	68
+MonthlyCity	2026-01|Mashhad	2473.24	57	2162	343	63
+MonthlyCity	2026-01|Shiraz	2465.96	51	1945.5	383	57
+MonthlyCity	2026-01|Tabriz	2408.86	45	1517.7	253	50
+MonthlyCity	2026-01|Tehran	9447.09	211	7724.4	1381	232
+MonthlyCity	2026-02|Isfahan	3644.65	71	2900.5	449	75
+MonthlyCity	2026-02|Mashhad	3550.3	66	2450.4	413	79
+MonthlyCity	2026-02|Shiraz	3157.99	73	2464.9	445	90
+MonthlyCity	2026-02|Tabriz	2311.49	44	1669.4	327	47
+MonthlyCity	2026-02|Tehran	10186.67	217	7819.2	1422	248
+Retention	2025-09|0	30	30	0	0	0
+Retention	2025-09|1	30	5	0	0	0
+Retention	2025-09|2	30	4	0	0	0
+Retention	2025-09|3	30	6	0	0	0
+Retention	2025-09|4	30	7	0	0	0
+Retention	2025-09|5	30	4	0	0	0
+Retention	2025-10|0	81	81	0	0	0
+Retention	2025-10|1	81	21	0	0	0
+Retention	2025-10|2	81	14	0	0	0
+Retention	2025-10|3	81	11	0	0	0
+Retention	2025-10|4	81	8	0	0	0
+Retention	2025-11|0	148	148	0	0	0
+Retention	2025-11|1	148	28	0	0	0
+Retention	2025-11|2	148	30	0	0	0
+Retention	2025-11|3	148	27	0	0	0
+Retention	2025-12|0	215	215	0	0	0
+Retention	2025-12|1	215	48	0	0	0
+Retention	2025-12|2	215	40	0	0	0
+Retention	2026-01|0	283	283	0	0	0
+Retention	2026-01|1	283	54	0	0	0
+Retention	2026-02|0	290	290	0	0	0

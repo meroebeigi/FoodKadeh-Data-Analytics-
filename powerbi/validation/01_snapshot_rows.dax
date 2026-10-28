@@ -1,0 +1,9 @@
+EVALUATE
+UNION(
+ SELECTCOLUMNS(MonthlyCity,"Table","MonthlyCity","Key",FORMAT(MonthlyCity[Month],"yyyy-MM")&"|"&MonthlyCity[City],"A",MonthlyCity[NetRevenue],"B",MonthlyCity[CompletedOrders],"C",MonthlyCity[DeliveryMinutes],"D",MonthlyCity[Sessions],"E",MonthlyCity[ConvertedSessions]),
+ SELECTCOLUMNS(Acquisition,"Table","Acquisition","Key",Acquisition[Channel]&"|"&Acquisition[Device],"A",Acquisition[Sessions],"B",Acquisition[Conversions],"C",0,"D",0,"E",0),
+ SELECTCOLUMNS(Retention,"Table","Retention","Key",Retention[Cohort]&"|"&FORMAT(Retention[MonthIndex],"0"),"A",Retention[CohortSize],"B",Retention[ActiveBuyers],"C",0,"D",0,"E",0),
+ SELECTCOLUMNS(CustomerSegments,"Table","CustomerSegments","Key",CustomerSegments[Segment],"A",CustomerSegments[Customers],"B",CustomerSegments[Revenue],"C",CustomerSegments[Orders],"D",CustomerSegments[Inactive45],"E",CustomerSegments[RepeatBuyers]),
+ SELECTCOLUMNS(CategorySales,"Table","CategorySales","Key",CategorySales[Category],"A",CategorySales[Units],"B",CategorySales[Sales],"C",0,"D",0,"E",0)
+)
+ORDER BY [Table], [Key]

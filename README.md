@@ -44,6 +44,8 @@ The dashboard contains five live report-page tiles: overview, acquisition, reten
 
 The report uses static embedded snapshots, with no scheduled refresh. A full workbook was uploaded to OneDrive, but the report is **not connected to it**. The [Power BI guide](powerbi/README.md) separates the implemented report from the optional transaction-level model extension.
 
+Direct [Power BI semantic-model verification](powerbi/validation/README.md) also passes: all 78 embedded rows/values, 39 measure/count/filter checks, and both selected-category sales/share rows match SQL. Captured results and read-only DAX queries are included. The comparator checks recorded evidence; it does not automate future live service queries.
+
 ## Reproduce
 
 Use Python 3.12. Run from the repository root:
@@ -54,6 +56,7 @@ python scripts/export_analytics.py
 python scripts/prepare_powerbi_extract.py
 python scripts/prepare_powerbi_analysis.py
 python scripts/validate_consistency.py
+python scripts/validate_live_snapshot.py
 ```
 
 Open `FoodKadeh.ipynb` in Jupyter and **Run All** from the repository root. Notebook and exporter import the same `scripts/foodkadeh_data.py` generator exactly once. The exporter recreates SQL views to apply definition changes. Generated CSVs/SQLite files are under ignored `data/`.

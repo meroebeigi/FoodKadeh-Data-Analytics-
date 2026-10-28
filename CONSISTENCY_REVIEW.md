@@ -30,6 +30,6 @@ The published Power BI figures remain valid for this preserved snapshot. Its PBI
 
 ## Verification limits
 
-- PBIX checks inspect report JSON and archive integrity; the binary VertiPaq model is not decoded or refreshed by the validation script. Agreement with embedded snapshot values relies on the service checks performed when the report was authored and the preserved canonical dataset. The script does not automate a Power BI service query.
+- PBIX checks inspect report JSON and archive integrity; the binary VertiPaq model is not decoded or refreshed by the validation script. A subsequent [direct service-model verification](powerbi/validation/README.md) executed DAX queries against all five embedded tables: all 78 rows/values, 39 measure/count/filter checks and two selected-category sales/share rows match SQL. `scripts/validate_live_snapshot.py` reproduces the comparison from the captured results; it does not automate live service queries or guarantee later model versions.
 - Classifier evaluation is a random buyer holdout on synthetic current-inactivity labels. There is no temporal future-outcome validation, causal estimate, or production-performance claim.
 - The dashboard is a separate service object. It is not embedded in the PBIX; live dashboard availability and account permissions cannot be established by local file checks.
