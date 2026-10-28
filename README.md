@@ -13,7 +13,21 @@ A reproducible portfolio project combining Python, Jupyter, SQLite and Power BI 
 
 [Open the report](https://app.powerbi.com/groups/me/reports/d5fdd6d6-bb09-4872-89b4-689fc58e3d96/d2c6f0a1907403c0de06?experience=power-bi) · [Open the Executive Dashboard](https://app.powerbi.com/groups/me/dashboards/53702303-d189-4853-8f9c-c1ea996a1ecc?experience=power-bi). Existing Power BI access is required; public sharing is disabled.
 
-![Power BI overview](powerbi/overview.jpg)
+[![Explore the interactive FoodKadeh report](powerbi/previews/overview.png)](https://app.powerbi.com/groups/me/reports/d5fdd6d6-bb09-4872-89b4-689fc58e3d96/d2c6f0a1907403c0de06?experience=power-bi)
+
+**Click the picture to open the interactive report.** This image is a clean Power BI export; filters work in the linked report and dashboard. Existing account access is required.
+
+## Explore interactively
+
+| Page | Controls and behavior |
+| --- | --- |
+| Overview | Select a city and month; KPI cards and both revenue charts update together |
+| Acquisition | Device buttons filter channel conversion and the channel/device detail table; select a channel bar to explore its traffic |
+| Customer value | Segment buttons filter buyer count, revenue, revenue per buyer, repeat buying and inactivity |
+| Retention | Cohort buttons isolate first-purchase cohorts in the retention matrix |
+| Products | Category buttons filter sales and units; category share recalculates within the selected categories |
+
+Use the slicer's eraser/Clear selections control to restore all values; the report is saved with all filters cleared. Live dashboard tiles support their own page controls. Filters apply within each page's SQL snapshot, not across unrelated snapshot tables. The README picture is a static preview; GitHub Markdown does not host Power BI's interactive controls.
 
 ## Reconciled metrics
 
@@ -38,7 +52,7 @@ Revenue is not commission or profit. Category sales use completed-order item rev
 
 The notebook covers KPIs, monthly sales, acquisition, SQL-aligned RFM, exploratory K-means, current inactivity classification, operations and first-purchase cohorts. RFM uses SQL NTILE with deterministic user-ID tie breaks and excludes never-buyers.
 
-The Power BI report has **Overview**, **Monthly detail**, **City scorecard**, **Acquisition**, **Customer value**, **Retention**, and **Products** pages: 21 DAX measures and 13 visuals. Five disconnected SQL snapshots are embedded: MonthlyCity (30 rows), Acquisition (15), CustomerSegments (6), Retention (21), CategorySales (6). Overview city selection does not filter independent full-period snapshots. Ratios divide aggregated numerators by denominators.
+The Power BI report has **Overview**, **Monthly detail**, **City scorecard**, **Acquisition**, **Customer value**, **Retention**, and **Products** pages: 21 DAX measures and 18 visuals. Five disconnected SQL snapshots are embedded: MonthlyCity (30 rows), Acquisition (15), CustomerSegments (6), Retention (21), CategorySales (6). Overview city selection does not filter independent full-period snapshots. Ratios divide aggregated numerators by denominators.
 
 The dashboard contains five live report-page tiles: overview, acquisition, retention, customer value and products. Saved report changes appear after dashboard refresh. Dashboard objects are not packaged in PBIX files.
 
@@ -66,10 +80,10 @@ Open `FoodKadeh.ipynb` in Jupyter and **Run All** from the repository root. Note
 | FoodKadeh.ipynb | Executed analysis and charts |
 | scripts/ | Canonical generation, exports, cross-layer validation |
 | sql/ | SQL views and definitions |
-| powerbi/ | PBIX, implemented DAX, themes, report/dashboard screenshots |
+| powerbi/ | PBIX, implemented DAX, themes, clean report-page exports and validation evidence |
 | CONSISTENCY_REVIEW.md | Findings, fixes and verification limits |
 
-Root `1.png`–`8.png` were regenerated from the executed notebook: KPI overview, sales trends, acquisition, RFM, K-means, current-inactivity classification, operations and cohorts. They are Python charts; Power BI screenshots are under `powerbi/`.
+Root `1.png`–`8.png` were regenerated from the executed notebook: KPI overview, sales trends, acquisition, RFM, K-means, current-inactivity classification, operations and cohorts. They are Python charts; Clean Power BI page exports are under `powerbi/previews/`; live-query evidence is under `powerbi/validation/`.
 
 ## Interpretation limits
 

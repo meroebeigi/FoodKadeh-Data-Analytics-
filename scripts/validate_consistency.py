@@ -83,11 +83,11 @@ with zipfile.ZipFile(ROOT/'powerbi/FoodKadeh.pbix') as z:
     pages=[json.loads(z.read(n)) for n in z.namelist() if n.endswith('/page.json')]
     assert {p['displayName'] for p in pages}=={'Overview','Monthly detail','City scorecard','Acquisition','Customer value','Retention','Products'}
     assert all((p['width'],p['height'])==(1280,720) for p in pages)
-    assert sum(n.endswith('/visual.json') for n in z.namelist())==13
+    assert sum(n.endswith('/visual.json') for n in z.namelist())==18
     assert len(z.read('DataModel'))>0
 nb=json.loads((ROOT/'FoodKadeh.ipynb').read_text(encoding='utf-8'))
 code=[c for c in nb['cells'] if c['cell_type']=='code']
 assert all(c['execution_count'] is not None for c in code), 'Run all notebook cells before publishing'
 assert not any(o.get('output_type')=='error' for c in code for o in c['outputs'])
 assert sum('tables = generate_data(RANDOM_STATE)' in ''.join(c['source']) for c in code)==1
-print('PASS: deterministic data, source integrity, five SQL views, all report extracts, seven PBIX pages, 13 visuals, executed notebook.')
+print('PASS: deterministic data, source integrity, five SQL views, all report extracts, seven PBIX pages, 18 visuals, executed notebook.')

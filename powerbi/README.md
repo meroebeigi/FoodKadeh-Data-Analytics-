@@ -2,29 +2,33 @@
 
 The completed [FoodKadeh report with data](FoodKadeh.pbix) was built and saved in Power BI on 28 October 2026. Its seven pages cover Overview, Monthly detail, City scorecard, Acquisition, Customer value, Retention, and Products. [Open the service report](https://app.powerbi.com/groups/me/reports/d5fdd6d6-bb09-4872-89b4-689fc58e3d96/d2c6f0a1907403c0de06?experience=power-bi) or the [Executive Dashboard](https://app.powerbi.com/groups/me/dashboards/53702303-d189-4853-8f9c-c1ea996a1ecc?experience=power-bi) using existing account access. No public sharing was enabled.
 
-![Saved Power BI overview](overview.jpg)
+[![Interactive overview preview](previews/overview.png)](https://app.powerbi.com/groups/me/reports/d5fdd6d6-bb09-4872-89b4-689fc58e3d96/d2c6f0a1907403c0de06?experience=power-bi)
+
+Click the clean exported picture to open the interactive report. The image is static; the linked service report provides the filters. [All clean page exports](previews/README.md) are rendered from Power BI’s native PDF export, without browser controls.
 
 ## Implemented report and validation
 
 The [direct semantic-model verification](validation/README.md) queries the saved Power BI model rather than relying only on PBIX structure or screenshots. All 78 embedded rows/values match SQL, as do 39 measure/count/filter checks and both selected-category sales/share rows. Reusable DAX queries, copied result tables, screenshots and a comparator are included. This verifies the service snapshot; it does not decode the local VertiPaq binary or automate future service checks.
 
-The service model uses five disconnected SQL snapshots: `MonthlyCity` (30 rows), `Acquisition` (15), `Retention` (21), `CustomerSegments` (6), and `CategorySales` (6). Install the root `requirements.txt`. Run `python scripts/export_analytics.py`, `python scripts/prepare_powerbi_extract.py`, and `python scripts/prepare_powerbi_analysis.py` from the repository root to reproduce the inputs. [Overview measures](service_measures.dax) and [analysis measures](analysis_measures.dax) contain the 21 DAX measures actually applied in the service. [Report theme](report_theme.json) supplies the orange palette. The downloaded `.pbix` passed ZIP integrity checks and contains seven HD pages, 13 visuals, and an embedded model.
+The service model uses five disconnected SQL snapshots: `MonthlyCity` (30 rows), `Acquisition` (15), `Retention` (21), `CustomerSegments` (6), and `CategorySales` (6). Install the root `requirements.txt`. Run `python scripts/export_analytics.py`, `python scripts/prepare_powerbi_extract.py`, and `python scripts/prepare_powerbi_analysis.py` from the repository root to reproduce the inputs. [Overview measures](service_measures.dax) and [analysis measures](analysis_measures.dax) contain the 21 DAX measures actually applied in the service. [Report theme](report_theme.json) supplies the orange palette. The downloaded `.pbix` passed ZIP integrity checks and contains seven HD pages, 18 visuals, and an embedded model.
 
 The initial CSV/local Excel upload route was unavailable. `MonthlyCity` was loaded through Power Query direct entry; the four analysis snapshots were added through TMDL calculated `DATATABLE` partitions and refreshed successfully. The full generated workbook, `FoodKadeh_Analytics.xlsx`, was subsequently uploaded to the account's OneDrive after initialization. The report still uses the embedded SQL snapshots, not a connection to that workbook or the five full transaction tables. This is a static six-month snapshot; no scheduled refresh is configured.
 
 | Implemented page | Contents |
 | --- | --- |
-| Overview | Five KPI cards, monthly revenue trend, city revenue bars, city selector |
+| Overview | Five KPI cards, monthly revenue trend, city revenue bars, city and month selectors |
 | Monthly detail | Monthly revenue, completed orders, AOV, sessions, conversion and delivery metrics |
 | City scorecard | City-level operating and commercial metrics |
-| Acquisition | Channel conversion bar chart and channel/device sessions, conversions, weighted conversion table |
-| Customer value | Six SQL RFM segments, buyers, revenue per buyer, repeat and inactivity rates; snapshot 1 March 2026 |
-| Retention | First-purchase cohort/month matrix with background color scale; future months blank |
-| Products | Category sales bars, product units and sales share; delivery fees and discounts excluded |
+| Acquisition | Device buttons, channel conversion bar chart and channel/device sessions, conversions, weighted conversion table |
+| Customer value | Segment buttons, six SQL RFM segments, buyers, revenue per buyer, repeat and inactivity rates; snapshot 1 March 2026 |
+| Retention | Cohort buttons and first-purchase cohort/month matrix with background color scale; future months blank |
+| Products | Category buttons, sales bars, product units and selected-category sales share; delivery fees and discounts excluded |
 
 The Executive Dashboard contains five live report-page tiles: Overview, Acquisition, Retention, Customer value, and Products. Saved report changes appear when the dashboard refreshes. The dashboard is a service object and is not packaged inside the PBIX.
 
-![Executive dashboard](dashboard.jpg)
+[![Executive dashboard overview tile — clean source-page export](previews/overview.png)](https://app.powerbi.com/groups/me/dashboards/53702303-d189-4853-8f9c-c1ea996a1ecc?experience=power-bi)
+
+The dashboard uses live report-page tiles: its city/month controls and page-specific buttons remain usable in Power BI. This picture shows the overview tile’s source canvas, not the browser or the full multi-tile arrangement.
 
 | Check | Python/SQL | Saved report |
 | --- | ---: | ---: |
@@ -38,7 +42,11 @@ The Executive Dashboard contains five live report-page tiles: Overview, Acquisit
 
 Session conversion includes orders later cancelled or refunded: 1,698 / 9,838 = 17.3%. Average delivery time is total completed-order delivery minutes divided by completed orders. Ratios are calculated from sums, not averaged across cities or months. The city filter was tested and cleared before saving. Customer value reconciles to 1,047 buyers, 335 repeat buyers (32.0%) and 442 buyers inactive over 45 days (42.2%). Cohort month zero is 100%; product units total 3,899. RFM uses SQL `NTILE` with deterministic user-ID tie breaks; the notebook now evaluates that same SQL view and matches these segments. Each analysis page has its own grain; overview city filters do not filter the disconnected snapshot pages.
 
-![Cohort retention report](retention.jpg)
+[![Interactive cohort-retention page — clean export](previews/retention.png)](https://app.powerbi.com/groups/me/reports/d5fdd6d6-bb09-4872-89b4-689fc58e3d96/a534eba163ad11450c82?experience=power-bi)
+
+## Interaction checks
+
+The saved report opens with all selections cleared. September month selection returns 1,585.35 revenue, 33 orders and 48.04 AOV. Mobile device selection returns 7,627 sessions and 1,385 conversions. Champions selection returns 138 buyers and 18,011.39 revenue. Grocery selection returns 828 units and 100% share of that single-category selection. September cohort selection isolates its matrix row. The live dashboard's Tehran selection returns 33,557.59 revenue and 730 orders. All selections were reset after testing.
 
 ## Full transaction model extension
 

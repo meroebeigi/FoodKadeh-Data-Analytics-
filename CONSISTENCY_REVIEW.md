@@ -22,7 +22,7 @@ Scope: all repository READMEs, Python generation/export code, SQL views, Jupyter
 
 The shared generation reproduces 2,500 users, 120 products, 9,838 sessions, 1,698 orders, 1,506 completed orders, 1,047 buyers and **72,431.22** net revenue. Repeat buyers are 335; inactive buyers are 442. Product units total 3,899.
 
-`scripts/validate_consistency.py` passes deterministic reruns, source primary keys and foreign keys, session/signup ordering, converted-session/order agreement, item-to-order revenue reconciliation, five exported SQL views, all five report-input extracts and independent Pandas acquisition/cohort aggregations. It also checks executed notebook status, the PBIX ZIP, seven named HD pages, 13 visuals and an embedded model. The notebook's final cell reconciles its executed outputs to SQL.
+`scripts/validate_consistency.py` passes deterministic reruns, source primary keys and foreign keys, session/signup ordering, converted-session/order agreement, item-to-order revenue reconciliation, five exported SQL views, all five report-input extracts and independent Pandas acquisition/cohort aggregations. It also checks executed notebook status, the PBIX ZIP, seven named HD pages, 18 visuals and an embedded model (after the interactive-slicer update). The notebook's final cell reconciles its executed outputs to SQL.
 
 Notebook execution used Python 3.12, NumPy 2.5.4, Pandas 3.0.1, Matplotlib 3.11.2 and scikit-learn 1.9.1. Dependencies are pinned in `requirements.txt`. The canonical generator/export was also checked with the existing NumPy 2.3.5 environment and returned the same published totals. The notebook was executed cell by cell through IPython with captured text/rich outputs; regenerated KPI/model charts were visually inspected.
 
@@ -33,3 +33,7 @@ The published Power BI figures remain valid for this preserved snapshot. Its PBI
 - PBIX checks inspect report JSON and archive integrity; the binary VertiPaq model is not decoded or refreshed by the validation script. A subsequent [direct service-model verification](powerbi/validation/README.md) executed DAX queries against all five embedded tables: all 78 rows/values, 39 measure/count/filter checks and two selected-category sales/share rows match SQL. `scripts/validate_live_snapshot.py` reproduces the comparison from the captured results; it does not automate live service queries or guarantee later model versions.
 - Classifier evaluation is a random buyer holdout on synthetic current-inactivity labels. There is no temporal future-outcome validation, causal estimate, or production-performance claim.
 - The dashboard is a separate service object. It is not embedded in the PBIX; live dashboard availability and account permissions cannot be established by local file checks.
+
+## Interactive presentation update
+
+Five native slicers were added to the existing seven report pages: month, device, segment, cohort and category. Together with the existing city selector they provide page-scoped filtering; the report now has 18 visuals. Controls were tested against SQL totals and reset before saving. Clean PNG page exports replace browser captures in the portfolio READMEs. These presentation changes do not change the semantic-model data or DAX definitions verified above.
