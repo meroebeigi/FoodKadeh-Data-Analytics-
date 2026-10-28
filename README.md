@@ -9,12 +9,14 @@ This project now extends the Python analysis with executable SQL and Power BI so
 | Area | Evidence | Skills demonstrated |
 | --- | --- | --- |
 | [SQL analytics](sql/README.md) | [Analytical views](sql/01_analytics.sql) for monthly KPIs, acquisition, RFM, cohorts, and category sales | CTEs, multi-table joins, window functions, customer segmentation, retention analysis, correct aggregation grain |
-| [Power BI](powerbi/README.md) | [DAX measures](powerbi/measures.dax), [Power Query function](powerbi/import_csv.pq), [report theme](powerbi/theme.json), semantic model and report build guide | Filter context, time intelligence, dimensional modeling, reusable data preparation, KPI design and report validation |
+| [Power BI](powerbi/README.md) | [Completed report with data](powerbi/FoodKadeh.pbix), [overview DAX](powerbi/service_measures.dax), [analysis DAX](powerbi/analysis_measures.dax), [screenshot](powerbi/overview.jpg), and model build guides | DAX filter context, weighted KPIs, ALLSELECTED sales share, cohort heatmaps, interactive filtering, dashboards, and SQL-to-BI reconciliation |
 | [Reproducible pipeline](scripts/export_analytics.py) | Notebook → SQLite views → CSV extracts for Power BI | Automated exports, revenue reconciliation and data quality checks |
 
 Run `python scripts/export_analytics.py` after installing the notebook dependencies to generate the local database and CSVs. See the folder guides for setup, metric definitions, model relationships, report pages, and validation steps.
 
-**Artifact status:** SQL is executable; Power BI includes source assets and build instructions. A completed `.pbix` and published report are not included. The existing PNG images are Python visualizations. All data is synthetic.
+**Artifact status:** SQL is executable and a completed [Power BI report](powerbi/FoodKadeh.pbix) is included with five embedded SQL snapshots. Its seven pages cover Overview, Monthly detail, City scorecard, Acquisition, Customer value, Retention, and Products. The [Executive Dashboard](https://app.powerbi.com/groups/me/dashboards/53702303-d189-4853-8f9c-c1ea996a1ecc?experience=power-bi) contains five live report-page tiles. The [saved service report](https://app.powerbi.com/groups/me/reports/d5fdd6d6-bb09-4872-89b4-689fc58e3d96/d2c6f0a1907403c0de06?experience=power-bi) requires existing Power BI access. All data is synthetic. The report is a static extract, with no scheduled refresh. Existing root PNG images are Python charts.
+
+![FoodKadeh Power BI report](powerbi/overview.jpg)
 
 **Reproducibility note:** The notebook repeats its data-generation section. The new exporter executes the first generator once with seed 42. Historical figures below are retained from the original README and have not all been revalidated; use exporter output for the new SQL/Power BI workflow. Conversion counts converted sessions even if the resulting order is later cancelled or refunded. Repeat buying and 45-day inactivity are separate metrics; one is not the complement of the other.
 
@@ -361,6 +363,6 @@ With these improvements, FoodKadeh can transition from an acquisition-driven mod
 
 ---
 
-**Last Updated:** October 2026
+**Last Updated:** October 2026  
 **Data Period:** Sep 2025 – Feb 2026  
 **Analysis Type:** Synthetic Data Prototype (Ready for Real Data Integration)
