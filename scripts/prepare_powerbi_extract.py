@@ -7,7 +7,7 @@ root = Path(__file__).resolve().parents[1] / 'data'
 with sqlite3.connect(root / 'foodkadeh.db') as db:
     df = pd.read_sql_query('''WITH sales AS (
       SELECT strftime('%Y-%m',o.order_date) AS Month,u.city AS City,
-       SUM(o.net_revenue) AS NetRevenue,
+       SUM(CASE WHEN o.status='Completed' THEN o.net_revenue ELSE 0 END) AS NetRevenue,
        SUM(CASE WHEN o.status='Completed' THEN 1 ELSE 0 END) AS CompletedOrders,
        SUM(CASE WHEN o.status='Completed' THEN o.delivery_time_min ELSE 0 END) AS DeliveryMinutes
       FROM orders o JOIN users u USING(user_id) GROUP BY 1,2

@@ -1,0 +1,8 @@
+EVALUATE
+SUMMARIZECOLUMNS(
+ CategorySales[Category],
+ TREATAS({"Restaurant Meal","Grocery"},CategorySales[Category]),
+ "ProductSales",[Product Sales],
+ "Share",[Category Sales Share]
+)
+ORDER BY CategorySales[Category]

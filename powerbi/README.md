@@ -6,7 +6,9 @@ The completed [FoodKadeh report with data](FoodKadeh.pbix) was built and saved i
 
 ## Implemented report and validation
 
-The service model uses five disconnected SQL snapshots: `MonthlyCity` (30 rows), `Acquisition` (15), `Retention` (21), `CustomerSegments` (6), and `CategorySales` (6). Run `python scripts/export_analytics.py`, `python scripts/prepare_powerbi_extract.py`, and `python scripts/prepare_powerbi_analysis.py` from the repository root to reproduce the inputs. [Overview measures](service_measures.dax) and [analysis measures](analysis_measures.dax) contain the 21 DAX measures actually applied in the service. [Report theme](report_theme.json) supplies the orange palette. The downloaded `.pbix` passed ZIP integrity checks and contains seven HD pages, 13 visuals, and an embedded model.
+The [direct semantic-model verification](validation/README.md) queries the saved Power BI model rather than relying only on PBIX structure or screenshots. All 78 embedded rows/values match SQL, as do 39 measure/count/filter checks and both selected-category sales/share rows. Reusable DAX queries, copied result tables, screenshots and a comparator are included. This verifies the service snapshot; it does not decode the local VertiPaq binary or automate future service checks.
+
+The service model uses five disconnected SQL snapshots: `MonthlyCity` (30 rows), `Acquisition` (15), `Retention` (21), `CustomerSegments` (6), and `CategorySales` (6). Install the root `requirements.txt`. Run `python scripts/export_analytics.py`, `python scripts/prepare_powerbi_extract.py`, and `python scripts/prepare_powerbi_analysis.py` from the repository root to reproduce the inputs. [Overview measures](service_measures.dax) and [analysis measures](analysis_measures.dax) contain the 21 DAX measures actually applied in the service. [Report theme](report_theme.json) supplies the orange palette. The downloaded `.pbix` passed ZIP integrity checks and contains seven HD pages, 13 visuals, and an embedded model.
 
 The initial CSV/local Excel upload route was unavailable. `MonthlyCity` was loaded through Power Query direct entry; the four analysis snapshots were added through TMDL calculated `DATATABLE` partitions and refreshed successfully. The full generated workbook, `FoodKadeh_Analytics.xlsx`, was subsequently uploaded to the account's OneDrive after initialization. The report still uses the embedded SQL snapshots, not a connection to that workbook or the five full transaction tables. This is a static six-month snapshot; no scheduled refresh is configured.
 
@@ -34,13 +36,13 @@ The Executive Dashboard contains five live report-page tiles: Overview, Acquisit
 | Tehran completed orders under city filter | 730 | 730 |
 | Tehran AOV under city filter | 45.9693 | $45.97 |
 
-Session conversion includes orders later cancelled or refunded: 1,698 / 9,838 = 17.3%. Average delivery time is total completed-order delivery minutes divided by completed orders. Ratios are calculated from sums, not averaged across cities or months. The city filter was tested and cleared before saving. Customer value reconciles to 1,047 buyers, 335 repeat buyers (32.0%) and 442 buyers inactive over 45 days (42.2%). Cohort month zero is 100%; product units total 3,899. RFM uses SQL `NTILE` with deterministic user-ID tie breaks, so segments can differ from the notebook's `qcut` implementation. Each analysis page has its own grain; overview city filters do not filter the disconnected snapshot pages.
+Session conversion includes orders later cancelled or refunded: 1,698 / 9,838 = 17.3%. Average delivery time is total completed-order delivery minutes divided by completed orders. Ratios are calculated from sums, not averaged across cities or months. The city filter was tested and cleared before saving. Customer value reconciles to 1,047 buyers, 335 repeat buyers (32.0%) and 442 buyers inactive over 45 days (42.2%). Cohort month zero is 100%; product units total 3,899. RFM uses SQL `NTILE` with deterministic user-ID tie breaks; the notebook now evaluates that same SQL view and matches these segments. Each analysis page has its own grain; overview city filters do not filter the disconnected snapshot pages.
 
 ![Cohort retention report](retention.jpg)
 
 ## Full transaction model extension
 
-The remaining [DAX templates](measures.dax), [Power Query CSV loader](import_csv.pq), and [dark theme](theme.json) support building the fuller transaction-level model below in Desktop. These template assets are distinct from the service report implementation; they have not all been executed in Power BI.
+The remaining [DAX templates](measures.dax), [Power Query CSV loader](import_csv.pq), and [dark theme](theme.json) support building the fuller transaction-level model below in Desktop. These template assets are distinct from the service report implementation; they have not all been executed in Power BI. The instructions below describe an optional extension, not additional implemented relationships.
 
 ## Build the model
 
@@ -50,7 +52,7 @@ The remaining [DAX templates](measures.dax), [Power Query CSV loader](import_csv
 4. Create the Date calculated table from `measures.dax`, mark Date[Date] as its date column, and connect Date[Date] → Orders[order_date] and Date[Date] → Sessions[session_date]. Keep Users[signup_date] unrelated for this report. Add each measure separately; format money to 2 decimals and ratios as percentages.
 5. Import `theme.json`. Label currency as synthetic dollars, matching the notebook; this is not a verified local-currency conversion.
 
-## Report pages and interactions
+## Optional transaction-model pages and interactions
 
 | Page | Visuals | Business decision |
 | --- | --- | --- |
