@@ -1,0 +1,7 @@
+{
+  "name": "FoodKadeh",
+  "dataColors": ["#FF6B1A", "#FFB347", "#4CAF7D", "#5B9CF6", "#A78BFA", "#E05555"],
+  "background": "#161616",
+  "foreground": "#F0F0F0",
+  "tableAccent": "#FF6B1A"
+}
