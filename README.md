@@ -1,368 +1,80 @@
 # FoodKadeh Data Analytics
 
-A comprehensive data analytics notebook for FoodKadeh, an online food-commerce platform. This project simulates and analyzes customer behavior, acquisition efficiency, retention patterns, and operational performance using Python, Pandas, and Scikit-learn.
+A reproducible portfolio project combining Python, Jupyter, SQLite and Power BI for a **synthetic** food-commerce platform. All layers use seed 42 for **September 2025–February 2026**, with a customer snapshot of **1 March 2026**. Currency is synthetic dollars.
 
-## SQL & Power BI Portfolio
+## Portfolio evidence
 
-This project now extends the Python analysis with executable SQL and Power BI source assets:
-
-| Area | Evidence | Skills demonstrated |
+| Area | Implemented evidence | Skills demonstrated |
 | --- | --- | --- |
-| [SQL analytics](sql/README.md) | [Analytical views](sql/01_analytics.sql) for monthly KPIs, acquisition, RFM, cohorts, and category sales | CTEs, multi-table joins, window functions, customer segmentation, retention analysis, correct aggregation grain |
-| [Power BI](powerbi/README.md) | [Completed report with data](powerbi/FoodKadeh.pbix), [overview DAX](powerbi/service_measures.dax), [analysis DAX](powerbi/analysis_measures.dax), [screenshot](powerbi/overview.jpg), and model build guides | DAX filter context, weighted KPIs, ALLSELECTED sales share, cohort heatmaps, interactive filtering, dashboards, and SQL-to-BI reconciliation |
-| [Reproducible pipeline](scripts/export_analytics.py) | Notebook → SQLite views → CSV extracts for Power BI | Automated exports, revenue reconciliation and data quality checks |
+| Python/Jupyter | [Executed notebook](FoodKadeh.ipynb), [shared generator](scripts/foodkadeh_data.py), [exporter](scripts/export_analytics.py) | Reproducible simulation, Pandas, visualization, feature engineering, clustering and classification |
+| SQL | [SQLite views](sql/01_analytics.sql), [setup](sql/README.md) | CTEs, joins, conditional aggregation, LAG, NTILE, DENSE_RANK, RFM and cohorts |
+| Power BI | [Seven-page PBIX](powerbi/FoodKadeh.pbix), [overview DAX](powerbi/service_measures.dax), [analysis DAX](powerbi/analysis_measures.dax), [guide](powerbi/README.md) | Weighted ratios, filter context, ALLSELECTED, cohort heatmaps, interactive filtering and dashboards |
+| Validation | [Consistency checks](scripts/validate_consistency.py), [audit](CONSISTENCY_REVIEW.md) | SQL/Pandas reconciliation, source integrity and report structure checks |
 
-Run `python scripts/export_analytics.py` after installing the notebook dependencies to generate the local database and CSVs. See the folder guides for setup, metric definitions, model relationships, report pages, and validation steps.
+[Open the report](https://app.powerbi.com/groups/me/reports/d5fdd6d6-bb09-4872-89b4-689fc58e3d96/d2c6f0a1907403c0de06?experience=power-bi) · [Open the Executive Dashboard](https://app.powerbi.com/groups/me/dashboards/53702303-d189-4853-8f9c-c1ea996a1ecc?experience=power-bi). Existing Power BI access is required; public sharing is disabled.
 
-**Artifact status:** SQL is executable and a completed [Power BI report](powerbi/FoodKadeh.pbix) is included with five embedded SQL snapshots. Its seven pages cover Overview, Monthly detail, City scorecard, Acquisition, Customer value, Retention, and Products. The [Executive Dashboard](https://app.powerbi.com/groups/me/dashboards/53702303-d189-4853-8f9c-c1ea996a1ecc?experience=power-bi) contains five live report-page tiles. The [saved service report](https://app.powerbi.com/groups/me/reports/d5fdd6d6-bb09-4872-89b4-689fc58e3d96/d2c6f0a1907403c0de06?experience=power-bi) requires existing Power BI access. All data is synthetic. The report is a static extract, with no scheduled refresh. Existing root PNG images are Python charts.
+![Power BI overview](powerbi/overview.jpg)
 
-![FoodKadeh Power BI report](powerbi/overview.jpg)
+## Reconciled metrics
 
-**Reproducibility note:** The notebook repeats its data-generation section. The new exporter executes the first generator once with seed 42. Historical figures below are retained from the original README and have not all been revalidated; use exporter output for the new SQL/Power BI workflow. Conversion counts converted sessions even if the resulting order is later cancelled or refunded. Repeat buying and 45-day inactivity are separate metrics; one is not the complement of the other.
+| Metric | Value | Definition |
+| --- | ---: | --- |
+| Registered users / products | 2,500 / 120 | Generated dimensions |
+| Retained sessions | 9,838 | Post-signup sessions; 22,000 candidates exist before filtering |
+| Converted sessions / all orders | 1,698 | Includes subsequent cancellations/refunds |
+| Completed orders | 1,506 | Completed status only |
+| Net revenue | $72,431.22 | Completed-order item revenue + delivery fee − discount |
+| AOV | $48.10 | Net revenue / completed orders |
+| Session conversion | 17.3% | 1,698 / 9,838 |
+| Completed-order buyers | 1,047 | Distinct purchasing users |
+| Repeat buyers | 335 (32.0%) | At least two completed orders / buyers |
+| Non-repeat buyers | 712 (68.0%) | Exactly one completed order; not churn |
+| Inactive over 45 days | 442 (42.2%) | Last completed purchase >45 days before snapshot |
+| Product units | 3,899 | Quantity on completed orders |
 
----
+Revenue is not commission or profit. Category sales use completed-order item revenue, excluding delivery fees and discounts. Session traffic source differs from user signup acquisition channel.
 
-## 📋 Project Overview
+## Analysis and report coverage
 
-**FoodKadeh** is a food delivery and food-commerce platform operating across major Iranian cities (Tehran, Shiraz, Isfahan, Tabriz, Mashhad). This analytics project examines 6 months of synthetic transaction data (Sep 2025 – Feb 2026) covering:
+The notebook covers KPIs, monthly sales, acquisition, SQL-aligned RFM, exploratory K-means, current inactivity classification, operations and first-purchase cohorts. RFM uses SQL NTILE with deterministic user-ID tie breaks and excludes never-buyers.
 
-- **2,500 customers** from multiple acquisition channels
-- **22,000 sessions** across multiple devices
-- **1,506 completed orders** across 6 product categories
-- **Revenue of $72,431** with insights into profitability drivers
+The Power BI report has **Overview**, **Monthly detail**, **City scorecard**, **Acquisition**, **Customer value**, **Retention**, and **Products** pages: 21 DAX measures and 13 visuals. Five disconnected SQL snapshots are embedded: MonthlyCity (30 rows), Acquisition (15), CustomerSegments (6), Retention (21), CategorySales (6). Overview city selection does not filter independent full-period snapshots. Ratios divide aggregated numerators by denominators.
 
-The notebook combines business intelligence, statistical analysis, machine learning, and operational insights to answer key questions about growth, customer value, retention, and churn.
+The dashboard contains five live report-page tiles: overview, acquisition, retention, customer value and products. Saved report changes appear after dashboard refresh. Dashboard objects are not packaged in PBIX files.
 
----
+The report uses static embedded snapshots, with no scheduled refresh. A full workbook was uploaded to OneDrive, but the report is **not connected to it**. The [Power BI guide](powerbi/README.md) separates the implemented report from the optional transaction-level model extension.
 
-## 🎯 Key Questions & Analysis Sections
+## Reproduce
 
-### 1. **What kind of business scenario are we simulating for FoodKadeh?**
-   - Synthetic data generation for a realistic food-commerce business
-   - Multi-city operation with diverse customer segments
-   - Real-world patterns: sign-ups grow over time, channels vary in efficiency, delivery times fluctuate
-   - Foundation for prototyping analytics without private company data
+Use Python 3.12. Run from the repository root:
 
-### 2. **What is the overall health of FoodKadeh at a glance?**
-   - **Executive KPI Dashboard** with metrics:
-     - Total Revenue: $72,431
-     - Completed Orders: 1,506
-     - Average Order Value (AOV): $48.10
-     - Total Users: 2,500
-     - Conversion Rate: 17.3%
-     - Repeat Rate: 32%
-
-### 3. **How are FoodKadeh's revenue, orders, and average order value changing over time?**
-   - **Sales KPI Trends** analysis with:
-     - Daily and monthly revenue tracking
-     - 7-day rolling averages to smooth noise
-     - Order volume trends
-     - AOV stability analysis
-   - **Key Finding:** Growth is order-volume driven, not price-driven (AOV is flat)
-   - **Action Items:** Focus on upselling, bundling, and customer retention
-
-### 4. **Which acquisition channels and devices are bringing the best customers?**
-   - **Customer Acquisition Analysis:**
-     - Referral: 23.8% conversion rate (highest quality)
-     - Direct: 21.1% conversion rate
-     - Organic Search: 16.5% conversion rate (highest volume)
-     - Google Ads: 15.9% conversion rate
-     - Instagram Ads: 14.1% conversion rate (lowest efficiency)
-   - **Device Performance:** Mobile dominates (78% of sessions) but Desktop converts better
-   - **Key Finding:** High traffic ≠ high performance; referral is the most efficient channel
-   - **Action Items:** Scale referral programs, optimize paid ads for conversion
-
-### 5. **Which customer groups are most valuable, loyal, or at risk?**
-   - **RFM Segmentation** (Recency, Frequency, Monetary):
-     - Champions: 235 customers, $124 avg revenue (core revenue drivers)
-     - Loyal: 264 customers, steady repeat behavior
-     - Potential Loyalists: 171 customers (growth opportunity)
-     - New Customers: High recent activity
-     - At Risk: 226 customers with declining engagement
-     - Lost: Customers beyond recovery threshold
-   - **Key Finding:** Revenue is concentrated in high-value segments; majority of users are low-value
-   - **Action Items:** Personalize campaigns by segment; upgrade low-value to regular/VIP
-
-### 6. **Are there natural customer groups beyond manually defined RFM segments?**
-   - **K-Means Clustering** with behavioral features:
-     - VIP Cluster: 235 customers, $124 avg revenue, high frequency & spending
-     - Regular Cluster: 221 customers, $104 avg revenue, mid-tier engagement
-     - Low-Value Cluster: 475 customers, $34 avg revenue (largest but least profitable)
-     - Inactive Cluster: 116 customers, minimal engagement
-   - **Optimal Number of Clusters:** 4 (determined via elbow method)
-   - **Key Finding:** Clear behavioral separation; opportunity to move users up the value ladder
-   - **Action Items:** Implement tiered loyalty system, segment-driven personalization
-
-### 7. **Which customers are likely to stop ordering, and what can FoodKadeh do about it?**
-   - **Churn Prediction Models:**
-     - Logistic Regression: 77% accuracy, ROC-AUC: 0.77
-     - Random Forest: 81% accuracy, ROC-AUC: 0.81 (best performer)
-   - **Top Churn Drivers (Feature Importance):**
-     1. Recency (days since last order) - strongest predictor
-     2. Total orders
-     3. Total revenue
-     4. Order frequency
-     5. Customer tenure
-   - **Churn Definition:** No orders in 45+ days
-   - **Key Finding:** Churn is behavioral and predictable; recency dominates
-   - **Action Items:** Build early warning system at 7/14/21+ day thresholds; trigger targeted interventions
-
-### 8. **Which products, cities, and operational factors have the biggest impact on performance?**
-   - **Product Category Performance:**
-     - Restaurant Meals: 53.1% of revenue (core business)
-     - Grocery: 29.0% of revenue (strong secondary)
-     - Bakery, Healthy Food, Snack, Beverage: 10.9% combined
-   - **City Performance:**
-     - Tehran: Highest volume, ~$46 AOV
-     - Mashhad: Highest AOV (~$55), premium customer segment
-     - Isfahan: Lowest AOV (~$46), slowest delivery (37.9 min)
-   - **Demographic Insights:**
-     - Age 45-54: Highest AOV ($52.12)
-     - Age 18-24: Lower AOV but volume players
-   - **Delivery Efficiency:**
-     - Average: 36-38 minutes across cities
-     - Isfahan slowest; Shiraz fastest
-   - **Key Finding:** Operations and marketing should be localized; delivery time is a friction point
-   - **Action Items:** City-level strategies, delivery optimization, demographic targeting
-
-### 9. **Are customers staying with FoodKadeh after their first purchase?**
-   - **Retention & Repeat Purchase Analysis:**
-     - One-time buyers: Large majority (low repeat rate)
-     - Occasional (2-3 orders): Moderate segment
-     - Regular (4-6 orders): Smaller engaged group
-     - Loyal (7+ orders): Very small but high-value core
-   - **Cohort Retention Heatmap:** Shows monthly cohorts and return behavior over time
-   - **Early Drop-Off:** Sharpest decline immediately after first purchase (Month 0)
-   - **Key Finding:** Acquisition is strong but early retention is weak; most customers don't return
-   - **Action Items:** Focus on first 7 days post-purchase; second-order incentives; habit-building campaigns
-
----
-
-## 💡 Business Model & Strategy
-
-### Current Business Model
-FoodKadeh operates as a **multi-category food-commerce marketplace** with:
-
-- **Primary Model:** Order-volume acquisition model (growth through new customers)
-- **Secondary Model:** Delivery + marketplace commission on orders
-- **Revenue Driver:** Order volume, not order value (AOV stable at ~$48)
-- **Acquisition Mix:** Paid ads (43%), organic (32%), referral (14%), direct (10%)
-- **Customer Base:** Young to middle-aged urban professionals in major Iranian cities
-
-### Strategic Insights
-
-**Strengths:**
-- Strong conversion rate (17.3% vs. industry 10-20%)
-- High-performing channels (Referral 24%, Direct 21%)
-- Rapid user acquisition (287 → 575 new users/month)
-- Stable pricing model (consistent AOV)
-
-**Weaknesses:**
-- Low repeat rate (32%) - most customers one-time buyers
-- High churn risk - retention not yet optimized
-- Geographic fragmentation - operations not localized
-- Delivery efficiency varies by city (35.9-37.9 min)
-- Low-value customer segment dominates (475/1,047 = 45%)
-
-**Opportunities:**
-- **Retention Focus:** Moving users from 1-time → repeat → loyal (highest ROI)
-- **AOV Optimization:** Bundles, upselling, free-delivery thresholds (target: $48 → $55+)
-- **Localization:** City-level pricing, product, and delivery strategies
-- **Referral Scaling:** Highest-performing channel; expand program
-- **Operational:** Reduce delivery times, improve customer experience
-
-### Recommended Growth Path
-
-1. **Phase 1 (Immediate):** Improve first-purchase experience → second-order conversion
-2. **Phase 2 (3–6 months):** Build retention loops → increase repeat rate to 40%+
-3. **Phase 3 (6–12 months):** AOV optimization via bundles and upselling
-4. **Phase 4 (12+ months):** Shift to customer lifetime value maximization, reduce CAC dependency
-
----
-
-## 🛠️ Skills Developed
-
-### Data Science & Analysis
-- **Data Generation & Simulation:** Creating realistic synthetic datasets with Python/NumPy
-- **Exploratory Data Analysis (EDA):** Pandas for data wrangling, aggregation, and summarization
-- **Statistical Analysis:** Cohort analysis, retention curves, trend decomposition
-- **Time Series Analysis:** Daily/monthly KPI tracking, rolling averages, seasonality detection
-
-### Machine Learning
-- **Segmentation:** K-means clustering with feature engineering and optimal cluster selection
-- **Predictive Modeling:** Logistic Regression and Random Forest for churn classification
-- **Model Evaluation:** ROC curves, confusion matrices, AUC-ROC, feature importance analysis
-- **Data Preprocessing:** Standard scaling, categorical encoding, train-test splitting
-
-### Business Intelligence
-- **SQL Analytics:** CTEs, joins, window functions, RFM scoring, and cohort retention in [sql/](sql/)
-- **Power BI Source Development:** Power Query, DAX measures, model relationships, and report design in [powerbi/](powerbi/)
-- **KPI Definition & Calculation:** Revenue metrics, conversion rates, retention, churn, LTV, CAC
-- **Dashboard Design:** Executive summaries, multi-panel visualizations, heatmaps
-- **Segmentation Strategy:** RFM analysis, behavioral clustering, cohort tracking
-- **Insights to Action:** Translating analysis into business recommendations
-
-### Data Visualization
-- **Python/Matplotlib:** Custom styling with brand color palette
-- **Multi-panel Figures:** GridSpec for complex layouts
-- **Advanced Charts:** Cohort heatmaps, dual-axis plots, donut charts, ROC curves
-- **Professional Design:** Dark theme, readable typography, effective color use
-
-### Python Libraries & Tools
-- **Pandas:** Data manipulation, groupby aggregations, merging, pivot tables
-- **NumPy:** Array operations, random sampling, numerical computations
-- **Scikit-learn:** KMeans, LogisticRegression, RandomForest, train_test_split, preprocessing
-- **Matplotlib:** Publication-quality visualizations with custom styling
-- **Jupyter Notebooks:** Interactive analysis and documentation
-
----
-
-## 📊 Key Metrics & KPIs
-
-| Metric | Value | Status | Action |
-|--------|-------|--------|--------|
-| **Total Revenue** | $72,431 | Growing | Maintain |
-| **Completed Orders** | 1,506 | Growing | Scale |
-| **Average Order Value** | $48.10 | Flat | Improve via upselling |
-| **Conversion Rate** | 17.3% | Strong | Maintain |
-| **Repeat Rate** | 32% | Weak | **Priority:** Improve to 40%+ |
-| **Churn Rate** | 68% | High | **Priority:** Implement early warning |
-| **Top Channel (Referral)** | 23.8% CVR | Excellent | Scale referral program |
-| **Mobile Dominance** | 78% sessions | High | Optimize mobile UX |
-| **Restaurant Meals** | 53.1% revenue | Concentrated | Diversify; cross-sell |
-| **Delivery Time** | 36-38 min | High | Reduce by 5-10% |
-
----
-
-## 📈 How to Use This Notebook
-
-### Prerequisites
-- Python 3.8+
-- Jupyter Notebook or JupyterLab
-- Required libraries: `numpy`, `pandas`, `matplotlib`, `scikit-learn`
-
-### Installation
 ```bash
-# Clone or download the repository
-cd FoodKadeh-DataAnalytics
-
-# Install dependencies
-pip install numpy pandas matplotlib scikit-learn
-
-# Launch Jupyter Notebook
-jupyter notebook FoodKadeh.ipynb
+pip install -r requirements.txt
+python scripts/export_analytics.py
+python scripts/prepare_powerbi_extract.py
+python scripts/prepare_powerbi_analysis.py
+python scripts/validate_consistency.py
 ```
 
-### Workflow
-1. **Run Section 1** to generate synthetic data (reproducible with RANDOM_STATE=42)
-2. **Run Sections 2-3** for executive KPI dashboard
-3. **Run Sections 4-5** for acquisition and segmentation analysis
-4. **Run Section 6** for churn prediction models
-5. **Run Sections 7-9** for operational and retention insights
-6. **Review strategy sections** for actionable recommendations per segment
+Open `FoodKadeh.ipynb` in Jupyter and **Run All** from the repository root. Notebook and exporter import the same `scripts/foodkadeh_data.py` generator exactly once. The exporter recreates SQL views to apply definition changes. Generated CSVs/SQLite files are under ignored `data/`.
 
-### Customization
-- **Adjust time period:** Modify `start_date` and `end_date` in Section 1
-- **Change user counts:** Update `n_users` and `n_sessions` to scale data
-- **Modify channels/categories:** Edit lists in Section 1 for your business
-- **Connect real data:** Replace synthetic data generation with your actual database queries
-- **Tune model parameters:** Adjust KMeans clusters, Random Forest depth, churn threshold (45 days)
+| Path | Purpose |
+| --- | --- |
+| FoodKadeh.ipynb | Executed analysis and charts |
+| scripts/ | Canonical generation, exports, cross-layer validation |
+| sql/ | SQL views and definitions |
+| powerbi/ | PBIX, implemented DAX, themes, report/dashboard screenshots |
+| CONSISTENCY_REVIEW.md | Findings, fixes and verification limits |
 
----
+Root `1.png`–`8.png` were regenerated from the executed notebook: KPI overview, sales trends, acquisition, RFM, K-means, current-inactivity classification, operations and cohorts. They are Python charts; Power BI screenshots are under `powerbi/`.
 
-## 🔗 Next Steps & Integration
+## Interpretation limits
 
-### To Connect Real Data
-1. Replace Section 1 data generation with SQL queries to your database
-2. Ensure column names match: `user_id`, `order_id`, `order_date`, `status`, `net_revenue`, etc.
-3. Run remaining sections unchanged
+- Synthetic trends do not establish campaign success, optimal pricing, product-market fit or causal delivery effects. No spend, costs or campaign calendar are generated.
+- K-means labels differ from RFM segments; four clusters are an exploratory choice.
+- The model classifies **current 45-day inactivity** with a random buyer holdout. Recency defines the label and is excluded from model inputs. This is not future-churn forecasting. Read regenerated output scores; historical fixed AUC claims are removed. A forecast needs an earlier feature cutoff, later outcome window and temporal evaluation.
+- Gross margin, CAC, LTV and LTV/CAC are unavailable without COGS, marketing spend and future customer lifetime. Non-repeat buying is not inactivity or churn.
+- Cohort Month 0 is 100%; observed inactive months are zero; future months are blank. Monthly cohorts cannot locate first-week dropout.
+- Offers, checkout changes and delivery improvements are candidate experiments; their ROI and impact are not estimated here.
 
-### To Deploy to Production
-1. Convert notebook cells to Python functions in `analytics.py`
-2. Schedule daily/weekly runs via cron or cloud scheduler
-3. Store results in a data warehouse or BI tool (Tableau, Looker, Power BI)
-4. Create dashboards for stakeholders
-
-### To Expand Analysis
-- Add geographic heat maps (city-level performance)
-- Implement A/B testing framework for campaigns
-- Build customer recommendation engine
-- Create dynamic pricing model by segment
-- Add competitive benchmarking
-
----
-
-## 📂 File Structure
-
-```
-FoodKadeh-DataAnalytics/
-├── README.md                          # This file
-├── FoodKadeh.ipynb                    # Main Jupyter Notebook with all analysis
-├── sql/                              # Executable SQLite analytical views and definitions
-├── powerbi/                          # DAX, Power Query, theme and report build guide
-├── scripts/export_analytics.py        # Reproducible export and reconciliation checks
-├── data/                             # Generated locally; excluded from Git
-└── 1.png ... 8.png                    # Existing Python analysis charts
-```
-
----
-
-## 📝 Analysis Sections Summary
-
-| Section | Type | Output | Key Finding |
-|---------|------|--------|------------|
-| 1. Data Generation | Setup | Synthetic tables | Foundation ready |
-| 2. KPI Overview | Executive | Dashboard card | $72.4K revenue, 32% repeat |
-| 3. Sales Trends | Analysis | Time series charts | Order-driven growth |
-| 4. Acquisition | Analysis | Channel comparison | Referral best (24% CVR) |
-| 5. RFM Segmentation | Segmentation | 6 segments | VIP is 23% of customers, 39% of revenue |
-| 6. K-Means Clustering | ML | 4 clusters | VIP/Regular/Low-value/Inactive |
-| 7. Churn Prediction | ML | RF model (81% AUC) | Recency is strongest signal |
-| 8. Operational Insights | Analysis | 4 operational views | Restaurant 53% revenue; delivery 36-38 min |
-| 9. Retention | Analysis | Cohort heatmap | Early drop-off; majority one-time |
-
----
-
-## 🤝 Contributing & Feedback
-
-This is a prototype analytics framework. To improve it:
-- Add real transaction data
-- Implement additional models (propensity scoring, RFM-RF hybrid)
-- Expand to more cities and product categories
-- Connect to your BI platform
-
----
-
-## 📞 Contact & Support
-
-For questions or feedback on this analysis:
-- Review the strategy sections within each analysis
-- Check the notebook's detailed commentary for each finding
-- Refer to the KPI definition table for metric explanations
-
----
-
-## 📜 License
-
-This project is provided as-is for educational and business intelligence purposes.
-
----
-
-## 🎓 Key Takeaways
-
-**FoodKadeh is performing well on acquisition and conversion, but must prioritize retention to build a sustainable, profitable business.**
-
-The path forward:
-1. **Reduce churn** via early warning system
-2. **Increase repeat rate** from 32% → 40%+
-3. **Improve AOV** from $48 → $55+ via bundles
-4. **Localize strategy** by city and segment
-5. **Shift from volume to value:** Maximize customer lifetime value
-
-With these improvements, FoodKadeh can transition from an acquisition-driven model to a retention-and-value-driven model, significantly improving profitability and unit economics.
-
----
-
-**Last Updated:** October 2026  
-**Data Period:** Sep 2025 – Feb 2026  
-**Analysis Type:** Synthetic Data Prototype (Ready for Real Data Integration)
+Educational prototype: replace synthetic inputs and extend the date grid/snapshot before applying it to real operations.
