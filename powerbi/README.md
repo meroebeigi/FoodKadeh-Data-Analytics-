@@ -1,6 +1,30 @@
 # Power BI analytics portfolio
 
-Source assets for building a FoodKadeh report: [DAX measures](measures.dax), [Power Query CSV loader](import_csv.pq), and a [brand theme](theme.json). These newly added assets demonstrate semantic modeling, filter context, reusable transformations, time intelligence, and KPI design. No completed `.pbix`, published report, or Power BI screenshots are included yet. Existing root PNGs are Python charts.
+The completed [FoodKadeh report with data](FoodKadeh.pbix) was built and saved in Power BI on 28 October 2026. It includes an Overview with five KPI cards, a revenue trend, city revenue bars, and an interactive city selector; Monthly detail and City scorecard pages show the supporting metrics. [Open the service report](https://app.powerbi.com/groups/me/reports/d5fdd6d6-bb09-4872-89b4-689fc58e3d96/d2c6f0a1907403c0de06?experience=power-bi) using existing account access. No public sharing was enabled.
+
+![Saved Power BI overview](overview.jpg)
+
+## Implemented report and validation
+
+The service model uses `MonthlyCity`, a 30-row monthly city extract generated from the Python data and SQLite joins. Run `python scripts/export_analytics.py` then `python scripts/prepare_powerbi_extract.py` from the repository root to reproduce it. [Report measures](service_measures.dax) are the DAX actually applied and tested in the service. [Report theme](report_theme.json) supplies the orange FoodKadeh palette. The `.pbix` was downloaded from the service with its data, and can be opened in Power BI Desktop.
+
+File upload was unavailable: CSV upload required an initialized/licensed OneDrive for Business account, and the service rejected local Excel import as unsupported. The validated extract was therefore loaded using Power Query's supported direct-entry table option. The `.pbix` embeds that extract; it does not contain the five full transaction tables. This is a static six-month snapshot, not a live database connection. No refresh schedule was configured.
+
+| Check | Python/SQL | Saved report |
+| --- | ---: | ---: |
+| Net revenue | 72,431.22 | $72,431.22 |
+| Completed orders | 1,506 | 1,506 |
+| AOV | 48.0951 | $48.10 |
+| Retained sessions | 9,838 | 9,838 |
+| Tehran revenue under city filter | 33,557.59 | $33,557.59 |
+| Tehran completed orders under city filter | 730 | 730 |
+| Tehran AOV under city filter | 45.9693 | $45.97 |
+
+Session conversion includes orders later cancelled or refunded. Average delivery time is total completed-order delivery minutes divided by completed orders. Ratios are calculated from sums, not averaged across cities or months. The city filter was tested and cleared before saving. Monthly detail and city scorecard totals reconcile to the overview. No customer-level retention or RFM visual is claimed in this report because the service extract has monthly city grain.
+
+## Full transaction model extension
+
+The remaining [DAX templates](measures.dax), [Power Query CSV loader](import_csv.pq), and [dark theme](theme.json) support building the fuller transaction-level model below in Desktop. These template assets are distinct from the service report implementation; they have not all been executed in Power BI.
 
 ## Build the model
 
@@ -33,4 +57,4 @@ Product filters apply to OrderItems, so use Product Sales for category visuals. 
 - Confirm category Product Sales totals match SQL category_sales; compare with item revenue, not order net revenue.
 - Check cross-filter behavior, empty selections, percentage formats, accessible contrast, and tooltip definitions.
 
-Save the verified report as `FoodKadeh.pbix` in this folder and add actual screenshots/exported pages when built. DAX/M assets have not been executed in Power BI during this update; no service publication or refresh schedule is claimed.
+The included `FoodKadeh.pbix` implements the monthly city report above. The transaction-level pages and relationships in this extension guide remain future work.

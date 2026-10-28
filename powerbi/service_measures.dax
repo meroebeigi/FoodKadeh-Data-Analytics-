@@ -1,0 +1,11 @@
+// Applied and tested in the Power BI service's MonthlyCity model on 2026-10-28.
+Net Revenue = SUM(MonthlyCity[NetRevenue])
+Completed Orders = SUM(MonthlyCity[CompletedOrders])
+Average Order Value = DIVIDE([Net Revenue], [Completed Orders])
+Total Sessions = SUM(MonthlyCity[Sessions])
+Converted Sessions = SUM(MonthlyCity[ConvertedSessions])
+Session Conversion Rate = DIVIDE([Converted Sessions], [Total Sessions])
+Average Delivery Minutes = DIVIDE(SUM(MonthlyCity[DeliveryMinutes]), [Completed Orders])
+// Display-only text measures prevent card auto-scaling/rounding; charts use numeric measures above.
+Revenue (synthetic dollars) = FORMAT([Net Revenue], "$#,##0.00")
+Orders completed = FORMAT([Completed Orders], "#,##0")
