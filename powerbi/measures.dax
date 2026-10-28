@@ -1,0 +1,40 @@
+// Create these as separate measures after importing the CSV model in README.md.
+Net Revenue = CALCULATE(SUM(Orders[net_revenue]), Orders[status] = "Completed")
+
+Completed Orders = CALCULATE(COUNTROWS(Orders), Orders[status] = "Completed")
+
+AOV = DIVIDE([Net Revenue], [Completed Orders])
+
+Buying Customers = CALCULATE(DISTINCTCOUNT(Orders[user_id]), Orders[status] = "Completed")
+
+Sessions Count = COUNTROWS(Sessions)
+
+Converted Sessions = SUM(Sessions[converted])
+
+Session Conversion Rate = DIVIDE([Converted Sessions], [Sessions Count])
+
+Repeat Buyers =
+COUNTROWS(
+ FILTER(VALUES(Users[user_id]), CALCULATE([Completed Orders]) >= 2)
+)
+
+Repeat Purchase Rate = DIVIDE([Repeat Buyers], [Buying Customers])
+
+Average Delivery Minutes =
+CALCULATE(AVERAGE(Orders[delivery_time_min]), Orders[status] = "Completed")
+
+Previous Month Revenue =
+CALCULATE([Net Revenue], DATEADD('Date'[Date], -1, MONTH))
+
+Revenue MoM % = DIVIDE([Net Revenue] - [Previous Month Revenue], [Previous Month Revenue])
+
+Product Sales =
+CALCULATE(SUM(OrderItems[item_revenue]), Orders[status] = "Completed")
+
+// Calculated table; mark as the date table and sort Month by MonthStart.
+Date =
+ADDCOLUMNS(
+ CALENDAR(DATE(2025,9,1), DATE(2026,2,28)),
+ "Month", FORMAT([Date], "yyyy-MM"),
+ "MonthStart", DATE(YEAR([Date]), MONTH([Date]), 1)
+)

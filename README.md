@@ -2,6 +2,22 @@
 
 A comprehensive data analytics notebook for FoodKadeh, an online food-commerce platform. This project simulates and analyzes customer behavior, acquisition efficiency, retention patterns, and operational performance using Python, Pandas, and Scikit-learn.
 
+## SQL & Power BI Portfolio
+
+This project now extends the Python analysis with executable SQL and Power BI source assets:
+
+| Area | Evidence | Skills demonstrated |
+| --- | --- | --- |
+| [SQL analytics](sql/README.md) | [Analytical views](sql/01_analytics.sql) for monthly KPIs, acquisition, RFM, cohorts, and category sales | CTEs, multi-table joins, window functions, customer segmentation, retention analysis, correct aggregation grain |
+| [Power BI](powerbi/README.md) | [DAX measures](powerbi/measures.dax), [Power Query function](powerbi/import_csv.pq), [report theme](powerbi/theme.json), semantic model and report build guide | Filter context, time intelligence, dimensional modeling, reusable data preparation, KPI design and report validation |
+| [Reproducible pipeline](scripts/export_analytics.py) | Notebook → SQLite views → CSV extracts for Power BI | Automated exports, revenue reconciliation and data quality checks |
+
+Run `python scripts/export_analytics.py` after installing the notebook dependencies to generate the local database and CSVs. See the folder guides for setup, metric definitions, model relationships, report pages, and validation steps.
+
+**Artifact status:** SQL is executable; Power BI includes source assets and build instructions. A completed `.pbix` and published report are not included. The existing PNG images are Python visualizations. All data is synthetic.
+
+**Reproducibility note:** The notebook repeats its data-generation section. The new exporter executes the first generator once with seed 42. Historical figures below are retained from the original README and have not all been revalidated; use exporter output for the new SQL/Power BI workflow. Conversion counts converted sessions even if the resulting order is later cancelled or refunded. Repeat buying and 45-day inactivity are separate metrics; one is not the complement of the other.
+
 ---
 
 ## 📋 Project Overview
@@ -177,6 +193,8 @@ FoodKadeh operates as a **multi-category food-commerce marketplace** with:
 - **Data Preprocessing:** Standard scaling, categorical encoding, train-test splitting
 
 ### Business Intelligence
+- **SQL Analytics:** CTEs, joins, window functions, RFM scoring, and cohort retention in [sql/](sql/)
+- **Power BI Source Development:** Power Query, DAX measures, model relationships, and report design in [powerbi/](powerbi/)
 - **KPI Definition & Calculation:** Revenue metrics, conversion rates, retention, churn, LTV, CAC
 - **Dashboard Design:** Executive summaries, multi-panel visualizations, heatmaps
 - **Segmentation Strategy:** RFM analysis, behavioral clustering, cohort tracking
@@ -278,10 +296,11 @@ jupyter notebook FoodKadeh.ipynb
 FoodKadeh-DataAnalytics/
 ├── README.md                          # This file
 ├── FoodKadeh.ipynb                    # Main Jupyter Notebook with all analysis
-└── (Optional: future modules)
-    ├── data_loader.py                 # Connect to real database
-    ├── analytics_functions.py         # Reusable analysis functions
-    └── visualizations.py              # Custom plotting utilities
+├── sql/                              # Executable SQLite analytical views and definitions
+├── powerbi/                          # DAX, Power Query, theme and report build guide
+├── scripts/export_analytics.py        # Reproducible export and reconciliation checks
+├── data/                             # Generated locally; excluded from Git
+└── 1.png ... 8.png                    # Existing Python analysis charts
 ```
 
 ---
@@ -342,6 +361,6 @@ With these improvements, FoodKadeh can transition from an acquisition-driven mod
 
 ---
 
-**Last Updated:** June 2026  
+**Last Updated:** October 2026
 **Data Period:** Sep 2025 – Feb 2026  
 **Analysis Type:** Synthetic Data Prototype (Ready for Real Data Integration)
