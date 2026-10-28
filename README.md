@@ -9,12 +9,12 @@ This project now extends the Python analysis with executable SQL and Power BI so
 | Area | Evidence | Skills demonstrated |
 | --- | --- | --- |
 | [SQL analytics](sql/README.md) | [Analytical views](sql/01_analytics.sql) for monthly KPIs, acquisition, RFM, cohorts, and category sales | CTEs, multi-table joins, window functions, customer segmentation, retention analysis, correct aggregation grain |
-| [Power BI](powerbi/README.md) | [Completed report with data](powerbi/FoodKadeh.pbix), [report DAX](powerbi/service_measures.dax), [screenshot](powerbi/overview.jpg), and model build guides | DAX filter context, weighted KPIs, interactive city filtering, report design, and SQL-to-BI reconciliation |
+| [Power BI](powerbi/README.md) | [Completed report with data](powerbi/FoodKadeh.pbix), [overview DAX](powerbi/service_measures.dax), [analysis DAX](powerbi/analysis_measures.dax), [screenshot](powerbi/overview.jpg), and model build guides | DAX filter context, weighted KPIs, ALLSELECTED sales share, cohort heatmaps, interactive filtering, dashboards, and SQL-to-BI reconciliation |
 | [Reproducible pipeline](scripts/export_analytics.py) | Notebook → SQLite views → CSV extracts for Power BI | Automated exports, revenue reconciliation and data quality checks |
 
 Run `python scripts/export_analytics.py` after installing the notebook dependencies to generate the local database and CSVs. See the folder guides for setup, metric definitions, model relationships, report pages, and validation steps.
 
-**Artifact status:** SQL is executable and a completed [Power BI report](powerbi/FoodKadeh.pbix) is included with embedded monthly city data. It has Overview, Monthly detail, and City scorecard pages. The [saved service report](https://app.powerbi.com/groups/me/reports/d5fdd6d6-bb09-4872-89b4-689fc58e3d96/d2c6f0a1907403c0de06?experience=power-bi) requires existing Power BI access. All data is synthetic. The report is a static extract, with no scheduled refresh. Existing root PNG images are Python charts.
+**Artifact status:** SQL is executable and a completed [Power BI report](powerbi/FoodKadeh.pbix) is included with five embedded SQL snapshots. Its seven pages cover Overview, Monthly detail, City scorecard, Acquisition, Customer value, Retention, and Products. The [Executive Dashboard](https://app.powerbi.com/groups/me/dashboards/53702303-d189-4853-8f9c-c1ea996a1ecc?experience=power-bi) contains five live report-page tiles. The [saved service report](https://app.powerbi.com/groups/me/reports/d5fdd6d6-bb09-4872-89b4-689fc58e3d96/d2c6f0a1907403c0de06?experience=power-bi) requires existing Power BI access. All data is synthetic. The report is a static extract, with no scheduled refresh. Existing root PNG images are Python charts.
 
 ![FoodKadeh Power BI report](powerbi/overview.jpg)
 

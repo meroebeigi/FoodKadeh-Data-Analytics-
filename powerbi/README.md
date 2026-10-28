@@ -1,14 +1,28 @@
 # Power BI analytics portfolio
 
-The completed [FoodKadeh report with data](FoodKadeh.pbix) was built and saved in Power BI on 28 October 2026. It includes an Overview with five KPI cards, a revenue trend, city revenue bars, and an interactive city selector; Monthly detail and City scorecard pages show the supporting metrics. [Open the service report](https://app.powerbi.com/groups/me/reports/d5fdd6d6-bb09-4872-89b4-689fc58e3d96/d2c6f0a1907403c0de06?experience=power-bi) using existing account access. No public sharing was enabled.
+The completed [FoodKadeh report with data](FoodKadeh.pbix) was built and saved in Power BI on 28 October 2026. Its seven pages cover Overview, Monthly detail, City scorecard, Acquisition, Customer value, Retention, and Products. [Open the service report](https://app.powerbi.com/groups/me/reports/d5fdd6d6-bb09-4872-89b4-689fc58e3d96/d2c6f0a1907403c0de06?experience=power-bi) or the [Executive Dashboard](https://app.powerbi.com/groups/me/dashboards/53702303-d189-4853-8f9c-c1ea996a1ecc?experience=power-bi) using existing account access. No public sharing was enabled.
 
 ![Saved Power BI overview](overview.jpg)
 
 ## Implemented report and validation
 
-The service model uses `MonthlyCity`, a 30-row monthly city extract generated from the Python data and SQLite joins. Run `python scripts/export_analytics.py` then `python scripts/prepare_powerbi_extract.py` from the repository root to reproduce it. [Report measures](service_measures.dax) are the DAX actually applied and tested in the service. [Report theme](report_theme.json) supplies the orange FoodKadeh palette. The `.pbix` was downloaded from the service with its data, and can be opened in Power BI Desktop.
+The service model uses five disconnected SQL snapshots: `MonthlyCity` (30 rows), `Acquisition` (15), `Retention` (21), `CustomerSegments` (6), and `CategorySales` (6). Run `python scripts/export_analytics.py`, `python scripts/prepare_powerbi_extract.py`, and `python scripts/prepare_powerbi_analysis.py` from the repository root to reproduce the inputs. [Overview measures](service_measures.dax) and [analysis measures](analysis_measures.dax) contain the 21 DAX measures actually applied in the service. [Report theme](report_theme.json) supplies the orange palette. The downloaded `.pbix` passed ZIP integrity checks and contains seven HD pages, 13 visuals, and an embedded model.
 
-File upload was unavailable: CSV upload required an initialized/licensed OneDrive for Business account, and the service rejected local Excel import as unsupported. The validated extract was therefore loaded using Power Query's supported direct-entry table option. The `.pbix` embeds that extract; it does not contain the five full transaction tables. This is a static six-month snapshot, not a live database connection. No refresh schedule was configured.
+The initial CSV/local Excel upload route was unavailable. `MonthlyCity` was loaded through Power Query direct entry; the four analysis snapshots were added through TMDL calculated `DATATABLE` partitions and refreshed successfully. The full generated workbook, `FoodKadeh_Analytics.xlsx`, was subsequently uploaded to the account's OneDrive after initialization. The report still uses the embedded SQL snapshots, not a connection to that workbook or the five full transaction tables. This is a static six-month snapshot; no scheduled refresh is configured.
+
+| Implemented page | Contents |
+| --- | --- |
+| Overview | Five KPI cards, monthly revenue trend, city revenue bars, city selector |
+| Monthly detail | Monthly revenue, completed orders, AOV, sessions, conversion and delivery metrics |
+| City scorecard | City-level operating and commercial metrics |
+| Acquisition | Channel conversion bar chart and channel/device sessions, conversions, weighted conversion table |
+| Customer value | Six SQL RFM segments, buyers, revenue per buyer, repeat and inactivity rates; snapshot 1 March 2026 |
+| Retention | First-purchase cohort/month matrix with background color scale; future months blank |
+| Products | Category sales bars, product units and sales share; delivery fees and discounts excluded |
+
+The Executive Dashboard contains five live report-page tiles: Overview, Acquisition, Retention, Customer value, and Products. Saved report changes appear when the dashboard refreshes. The dashboard is a service object and is not packaged inside the PBIX.
+
+![Executive dashboard](dashboard.jpg)
 
 | Check | Python/SQL | Saved report |
 | --- | ---: | ---: |
@@ -20,7 +34,9 @@ File upload was unavailable: CSV upload required an initialized/licensed OneDriv
 | Tehran completed orders under city filter | 730 | 730 |
 | Tehran AOV under city filter | 45.9693 | $45.97 |
 
-Session conversion includes orders later cancelled or refunded. Average delivery time is total completed-order delivery minutes divided by completed orders. Ratios are calculated from sums, not averaged across cities or months. The city filter was tested and cleared before saving. Monthly detail and city scorecard totals reconcile to the overview. No customer-level retention or RFM visual is claimed in this report because the service extract has monthly city grain.
+Session conversion includes orders later cancelled or refunded: 1,698 / 9,838 = 17.3%. Average delivery time is total completed-order delivery minutes divided by completed orders. Ratios are calculated from sums, not averaged across cities or months. The city filter was tested and cleared before saving. Customer value reconciles to 1,047 buyers, 335 repeat buyers (32.0%) and 442 buyers inactive over 45 days (42.2%). Cohort month zero is 100%; product units total 3,899. RFM uses SQL `NTILE` with deterministic user-ID tie breaks, so segments can differ from the notebook's `qcut` implementation. Each analysis page has its own grain; overview city filters do not filter the disconnected snapshot pages.
+
+![Cohort retention report](retention.jpg)
 
 ## Full transaction model extension
 
@@ -57,4 +73,4 @@ Product filters apply to OrderItems, so use Product Sales for category visuals. 
 - Confirm category Product Sales totals match SQL category_sales; compare with item revenue, not order net revenue.
 - Check cross-filter behavior, empty selections, percentage formats, accessible contrast, and tooltip definitions.
 
-The included `FoodKadeh.pbix` implements the monthly city report above. The transaction-level pages and relationships in this extension guide remain future work.
+The included `FoodKadeh.pbix` implements all seven pages using SQL snapshots. The full transaction-level relationships in this extension guide remain an optional extension.

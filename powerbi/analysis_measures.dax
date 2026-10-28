@@ -1,0 +1,25 @@
+// Measures implemented in the service, in addition to service_measures.dax.
+// Each group belongs to its namesake disconnected SQL snapshot table.
+Traffic Sessions = SUM(Acquisition[Sessions])
+Traffic Conversions = SUM(Acquisition[Conversions])
+Traffic Conversion Rate = DIVIDE([Traffic Conversions], [Traffic Sessions])
+
+Cohort Retention Rate =
+IF(HASONEVALUE(Retention[MonthIndex]),
+    DIVIDE(SUM(Retention[ActiveBuyers]), SUM(Retention[CohortSize])))
+
+Segment Buyers = SUM(CustomerSegments[Customers])
+Segment Revenue = SUM(CustomerSegments[Revenue])
+Revenue per Buyer = DIVIDE([Segment Revenue], [Segment Buyers])
+Repeat Buyer Rate = DIVIDE(SUM(CustomerSegments[RepeatBuyers]), [Segment Buyers])
+Inactive Buyer Rate = DIVIDE(SUM(CustomerSegments[Inactive45]), [Segment Buyers])
+
+Product Sales = SUM(CategorySales[Sales])
+Product Units = SUM(CategorySales[Units])
+Category Sales Share =
+DIVIDE([Product Sales],
+    CALCULATE([Product Sales], ALLSELECTED(CategorySales[Category])))
+
+// Whole counts: #,##0; money: $#,##0.00; ratios: 0.0%.
+// Cohorts use first completed purchase; future months remain absent/blank.
+// Product Sales excludes delivery fees and discounts; it is not Net Revenue.
